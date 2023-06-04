@@ -1,4 +1,5 @@
 const express = require("express");
+const bodyParser = require('body-parser')
 const connectDB = require('./config/db');
 
 const port = process.env.PORT || 5000;
@@ -6,6 +7,7 @@ const port = process.env.PORT || 5000;
 const items = require('./routes/api/items')
 
 const app = express();
+app.use(express.json());
 
 connectDB();
 

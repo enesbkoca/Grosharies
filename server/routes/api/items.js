@@ -34,7 +34,7 @@ router.get("/:id", (req, res) => {
 router.post('/', (req, res) => {
     GroceryItem.create(req.body)
         .then(item => res.json({msg: 'Item added successfully'}))
-        .catch(err => res.status(400).json({error: 'Unable to add this item'}))
+        .catch(err => res.status(400).json({error: 'Unable to add this item', err:err}))
 });
 
 // @route PUT api/items/:id
