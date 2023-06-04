@@ -1,24 +1,32 @@
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import './App.css';
+import React, { useState, useEffect } from 'react';
 
-import CreateItem from './components/CreateItem'
-import ShowItemList from './components/ShowItemList'
-import ShowItemDetails from './components/ShowItemDetails'
-import UpdateItemInfo from './components/UpdateItemInfo'
+const App = () => {
 
-function App() {
-  return (
-    <Router>
-      <div>
-        <Routes>
-          <Route exact path='/' element={<ShowItemList />} />
-          <Route path='/create-item' element={<CreateItem />} />
-          <Route path='/edit-item/:id' element={<UpdateItemInfo />} />
-          <Route path='/show-item/:id' element={<ShowItemDetails />} />
-        </Routes>
+    const [items, setItems] = useState([{id: 4, name: "Apple"}]);
+
+    useEffect(() => {
+      fetch('http://localhost:5000/api/items')
+        .then((res) => res.json())
+        .then((data) => {
+          console.log(data);
+          setItems(data)
+        })
+        .catch((err) => {
+          console.log(err.message);
+        })
+    }, []);
+
+    return (
+      <div className="items-container">
+        {items.map((item) => {
+          return(
+          <div className="item-card" key={item.id}>
+            <h2 className="item-name">{item.name}</h2>
+            </div>
+            )
+        })}
       </div>
-    </Router>
-  );
+  )
 };
 
 export default App;
