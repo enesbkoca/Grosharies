@@ -4,51 +4,75 @@ import { useState } from 'react';
 
 function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('');
-  const [fulfilledOnly, setFulfilledonly] = useState(true);
+  const [unpurchasedOnly, setUnpurchasedOnly] = useState(true);
 
 
   return (
     <div>
       <SearchBar 
         filterShop={filterShop}
-        fulfilledOnly={fulfilledOnly}/>
+        unpurchasedOnly={unpurchasedOnly}
+        onFilterShopChange={setFilterShop}
+        onUnPurhcasedOnlyChange={setUnpurchasedOnly}/>
       <ItemTable 
         items={items}
-        filtersShop={filterShop}
-        fulfilledOnly={fulfilledOnly}/>
+        filterShop={filterShop}
+        unpurchasedOnly={unpurchasedOnly}
+        />
     </div>
   );
 }
 
-function SearchBar() {
+function SearchBar({ filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange }) {
+  const shopList = []
+  
+  ITEMS.forEach((item) => {
+      if (!(shopList.includes(item.shop))) {
+        shopList.push(item.shop)
+      }});
+    
+  const shopListOption = shopList.map((shop) => {return <option value={shop}>{shop}</option>})
+
   return (
     <form>
-      <input type="text" placeholder="Search..." />
+      <select 
+        name="shops" 
+        id="shops"
+        onChange={(e) => onFilterShopChange(e.target.value)}>
+          {shopListOption}
+      </select>
+
       <label>
-        <input type="checkbox" />
-        {'Only show groceries not fulfilled'}
+        <input 
+        type="checkbox"
+        checked={unpurchasedOnly}
+        onChange={(e) => {onUnPurhcasedOnlyChange(e.target.checked)}}/>
+        {'Only unpurchased'}
         
       </label>
     </form>
   );
 }
 
-function ItemTable({items}) {
+function ItemTable({items, filterShop, unpurchasedOnly}) {
   const rows = [];
   let lastShop = null;
 
   items.forEach((item) => {
     if (item.shop !== lastShop) {
-      rows.push(
-        <ItemCategoryRow
-          shop={item.shop}
-          key={item.shop} />
-      );
+      if ((!(unpurchasedOnly)) || (unpurchasedOnly && (item.fulfilled === false))) {
+        rows.push(
+          <ItemCategoryRow
+            shop={item.shop}
+            key={item.id} />
+        );
+      }
+      
     }
     rows.push(
       <ItemRow
         item={item}
-        key={item.name} />
+        key={item.id} />
     );
 
     lastShop = item.shop;
@@ -91,9 +115,9 @@ function ItemRow({item}) {
 
 
 const ITEMS = [
-  {'shop': 'Lidl', 'name': 'Milk', 'fulfilled': false, "quantity": 3},
-  {'shop': 'Lidl', 'name': 'Yoghurt', 'fulfilled': true, "quantity": 1},
-  {'shop': 'Dirk', 'name': 'Chips', 'fulfilled': false, "quantity": 5}
+  {'shop': 'Lidl', 'name': 'Milk', 'fulfilled': false, "quantity": 3, "id":1},
+  {'shop': 'Lidl', 'name': 'Yoghurt', 'fulfilled': true, "quantity": 1, "id": 2},
+  {'shop': 'Dirk', 'name': 'Chips', 'fulfilled': false, "quantity": 5, "id": 3}
 ]
 
 export default function App() {
