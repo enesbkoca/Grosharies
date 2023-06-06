@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'; 
-
+import './App.css';
 
 
 function FilterableItemTable({items}) {
@@ -44,7 +44,7 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
       )});
 
   return (
-    <form>
+    <form className='filter-bar font center'>
       <select 
         name="shops" 
         id="shops"
@@ -65,12 +65,6 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
 
 function ItemTable({items, filterShop, unpurchasedOnly}) {
   const rows = [];
-  
-  rows.push(
-    <ItemCategoryRow
-      shop={filterShop}
-      key={filterShop} />
-  );
 
   items.forEach((item) => {
     if (filterShop !== "All" && (!(item.shop.includes(filterShop)))) {
@@ -87,7 +81,7 @@ function ItemTable({items, filterShop, unpurchasedOnly}) {
   });
 
   return (
-    <table>
+    <table className="table-header center font">
       <thead>
         <tr>
           <th>Name</th>
@@ -99,22 +93,11 @@ function ItemTable({items, filterShop, unpurchasedOnly}) {
   );
 }
 
-
-function ItemCategoryRow({shop}) {
-  return (
-    <tr>
-      <th colSpan="2">
-        {shop}
-      </th>
-    </tr>
-  );
-}
-
 function ItemRow({item}) {
   const name = !(item.fulfilled) ? item.name :  <span><s>{item.name}</s></span>;
 
   return (
-    <tr>
+    <tr className="table-row font">
       <td>{name}</td>
       <td>{item.quantity}</td>
     </tr>
