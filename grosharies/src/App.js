@@ -31,7 +31,14 @@ function SearchBar({ filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhca
         shopList.push(item.shop)
       }});
     
-  const shopListOption = shopList.map((shop) => {return <option value={shop}>{shop}</option>})
+  const shopListOption = shopList.map((shop) => {
+    return (
+    <option 
+      value={shop} 
+      key={shop}>
+      {shop}
+    </option>
+      )});
 
   return (
     <form>
@@ -48,7 +55,6 @@ function SearchBar({ filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhca
         checked={unpurchasedOnly}
         onChange={(e) => {onUnPurhcasedOnlyChange(e.target.checked)}}/>
         {'Only unpurchased'}
-        
       </label>
     </form>
   );
@@ -56,26 +62,25 @@ function SearchBar({ filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhca
 
 function ItemTable({items, filterShop, unpurchasedOnly}) {
   const rows = [];
-  let lastShop = null;
+  
+  rows.push(
+    <ItemCategoryRow
+      shop={filterShop}
+      key={filterShop} />
+  );
 
   items.forEach((item) => {
-    if (item.shop !== lastShop) {
-      if ((!(unpurchasedOnly)) || (unpurchasedOnly && (item.fulfilled === false))) {
-        rows.push(
-          <ItemCategoryRow
-            shop={item.shop}
-            key={item.id} />
-        );
+    if (item.shop !== filterShop) {
+        return;
       }
-      
-    }
+
+    if ((!(unpurchasedOnly)) || (unpurchasedOnly && (item.fulfilled === false))) {
     rows.push(
       <ItemRow
         item={item}
-        key={item.id} />
-    );
-
-    lastShop = item.shop;
+        key={item.name} />
+      );
+    }
   });
 
   return (
@@ -115,9 +120,9 @@ function ItemRow({item}) {
 
 
 const ITEMS = [
-  {'shop': 'Lidl', 'name': 'Milk', 'fulfilled': false, "quantity": 3, "id":1},
-  {'shop': 'Lidl', 'name': 'Yoghurt', 'fulfilled': true, "quantity": 1, "id": 2},
-  {'shop': 'Dirk', 'name': 'Chips', 'fulfilled': false, "quantity": 5, "id": 3}
+  {'shop': 'Lidl', 'name': 'Milk', 'fulfilled': false, "quantity": 3},
+  {'shop': 'Lidl', 'name': 'Yoghurt', 'fulfilled': true, "quantity": 1},
+  {'shop': 'Dirk', 'name': 'Chips', 'fulfilled': false, "quantity": 5}
 ]
 
 export default function App() {
