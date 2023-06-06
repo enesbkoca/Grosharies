@@ -12,12 +12,15 @@ const ItemSchema = new mongoose.Schema({
     },
     quantity: {
         type: Number,
+        required: true,
         default: 1
     },
+    added_date: {
+        type: Date,
+        required: true
+    },
     shop: [String],
-    added_date: Date,
     fulfilled_date: Date
-    
 })
 
 module.exports = Item = mongoose.model('item', ItemSchema)
