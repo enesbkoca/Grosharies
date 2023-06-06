@@ -1,15 +1,16 @@
-import { useState } from 'react'; 
+import { useState, useEffect } from 'react'; 
 
 
 
 function FilterableItemTable({items}) {
-  const [filterShop, setFilterShop] = useState('');
-  const [unpurchasedOnly, setUnpurchasedOnly] = useState(true);
+  const [filterShop, setFilterShop] = useState('All');
+  const [unpurchasedOnly, setUnpurchasedOnly] = useState(false);
 
 
   return (
     <div>
       <SearchBar 
+        items={items}
         filterShop={filterShop}
         unpurchasedOnly={unpurchasedOnly}
         onFilterShopChange={setFilterShop}
@@ -23,13 +24,15 @@ function FilterableItemTable({items}) {
   );
 }
 
-function SearchBar({ filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange }) {
-  const shopList = []
+function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange }) {
+  const shopList = ["All"]
   
-  ITEMS.forEach((item) => {
-      if (!(shopList.includes(item.shop))) {
-        shopList.push(item.shop)
-      }});
+  items.forEach((item) => {
+    item.shop.forEach((shop) => {
+      if (!(shopList.includes(shop))) {
+        shopList.push(shop)
+       }})
+      });
     
   const shopListOption = shopList.map((shop) => {
     return (
@@ -70,7 +73,7 @@ function ItemTable({items, filterShop, unpurchasedOnly}) {
   );
 
   items.forEach((item) => {
-    if (item.shop !== filterShop) {
+    if (filterShop !== "All" && (!(item.shop.includes(filterShop)))) {
         return;
       }
 
@@ -78,7 +81,7 @@ function ItemTable({items, filterShop, unpurchasedOnly}) {
     rows.push(
       <ItemRow
         item={item}
-        key={item.name} />
+        key={item._id} />
       );
     }
   });
@@ -119,91 +122,20 @@ function ItemRow({item}) {
 }
 
 
-const ITEMS = [
-  {'shop': 'Lidl', 'name': 'Milk', 'fulfilled': false, "quantity": 3},
-  {'shop': 'Lidl', 'name': 'Yoghurt', 'fulfilled': true, "quantity": 1},
-  {'shop': 'Dirk', 'name': 'Chips', 'fulfilled': false, "quantity": 5}
-]
-
 export default function App() {
-  return <FilterableItemTable items={ITEMS} />;
+
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch('http://localhost:5000/api/items')
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        setItems(data)
+        })
+      .catch((err) => {console.log(err.message)})
+  }, []);
+
+
+  return <FilterableItemTable items={items} />;
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// import React, { useState, useEffect } from 'react';
-//
-//
-// const App = () => {
-
-//     const [items, setItems] = useState([{id: 4, name: "Apple"}]);
-
-//     useEffect(() => {
-//       fetch('http://localhost:5000/api/items')
-//         .then((res) => res.json())
-//         .then((data) => {
-//           console.log(data);
-//           setItems(data)
-//         })
-//         .catch((err) => {
-//           console.log(err.message);
-//         })
-//     }, []);
-
-//     return (
-//       <div className="items-container">
-//         {items.map((item) => {
-//           return(
-//           <div className="item-card" key={item.id}>
-//             <h2 className="item-name">{item.name}</h2>
-//             </div>
-//             )
-//         })}
-//       </div>
-//   )
-// };
-//
-// export default App;
