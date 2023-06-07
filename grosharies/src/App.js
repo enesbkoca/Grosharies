@@ -5,11 +5,13 @@ import './App.css';
 function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
   const [unpurchasedOnly, setUnpurchasedOnly] = useState(false);
-
+  const [extendAddButton, setExtendAddButton] = useState(false);
+  
   return (
     <div className="center">
       <div className="width-80 center">
-        <div className="width-50-left">
+
+        <div className={`width-50-left ${extendAddButton ? "hidden" : ""}`}>
         <SearchBar 
           items={items}
           filterShop={filterShop}
@@ -19,8 +21,11 @@ function FilterableItemTable({items}) {
         </div>
 
         <div className="width-50-right">
-          <AddItem/>
+          <AddItem
+          extendAddButton={extendAddButton}
+          setExtendAddButton={setExtendAddButton}/>
         </div>
+
       </div>
       <ItemTable 
         items={items}
@@ -31,13 +36,14 @@ function FilterableItemTable({items}) {
   );
 }
 
-function AddItem() {
-  return <button 
+function AddItem({extendAddButton, setExtendAddButton}) {
+  return <button
+  onClick={() => {setExtendAddButton(extendAddButton === false)}} 
   type="button"
   className="button add-item">Add New Item</button>
 }
 
-function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange }) {
+function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange, extendAddButton, setExtendAddButton }) {
   const shopList = ["All"]
   
   items.forEach((item) => {

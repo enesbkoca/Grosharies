@@ -141,3 +141,7 @@ table.strike-able tr.strikeout td.strike-able:before {
   background-color: #9fd3c7; /* Green */
   color: white;
 }
+
+.hidden { 
+  display:none;
+}
