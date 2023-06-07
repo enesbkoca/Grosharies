@@ -37,10 +37,17 @@ function FilterableItemTable({items}) {
 }
 
 function AddItem({extendAddButton, setExtendAddButton}) {
-  return <button
-  onClick={() => {setExtendAddButton(extendAddButton === false)}} 
-  type="button"
-  className="button add-item">Add New Item</button>
+  return (
+    <form 
+      action="" 
+      className={`add-item`}
+      onMouseOver={() => {setExtendAddButton(true)}}
+      onMouseLeave={() => {setExtendAddButton(false)}}>
+        <input type="text"
+        className = "add-input" required></input>
+        <i class="fa fa-search">+</i>
+    </form>
+    )
 }
 
 function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange, extendAddButton, setExtendAddButton }) {
