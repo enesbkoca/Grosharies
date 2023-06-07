@@ -107,3 +107,39 @@ table.strike-able tr.strikeout td.strike-able:before {
   border-bottom: 2px solid #142d4c;
   width: 100%;
 }
+
+.width-80 {
+  width: 80%;
+}
+
+.width-50-left {
+  width: 50%;
+  height: 50px;
+  float: left;
+  padding: 5px 2px;
+}
+
+.width-50-right {
+  margin-left: 50%;
+  height: 50px;
+  padding: 5px 2px;
+}
+
+.add-item {
+  text-align: center;
+  border-radius: 8px;
+  padding: 10px 110px;
+  border: 2.5px solid #9fd3c7;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 20px;
+}
+
+.button {
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #9fd3c7; /* Green */
+  color: white;
+}

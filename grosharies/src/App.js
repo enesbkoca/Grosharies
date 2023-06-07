@@ -6,15 +6,22 @@ function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
   const [unpurchasedOnly, setUnpurchasedOnly] = useState(false);
 
-
   return (
     <div>
-      <SearchBar 
-        items={items}
-        filterShop={filterShop}
-        unpurchasedOnly={unpurchasedOnly}
-        onFilterShopChange={setFilterShop}
-        onUnPurhcasedOnlyChange={setUnpurchasedOnly}/>
+      <div className="width-80 center">
+        <div className="width-50-left">
+        <SearchBar 
+          items={items}
+          filterShop={filterShop}
+          unpurchasedOnly={unpurchasedOnly}
+          onFilterShopChange={setFilterShop}
+          onUnPurhcasedOnlyChange={setUnpurchasedOnly}/>
+        </div>
+
+        <div className="width-50-right">
+          <AddItem/>
+        </div>
+      </div>
       <ItemTable 
         items={items}
         filterShop={filterShop}
@@ -22,6 +29,12 @@ function FilterableItemTable({items}) {
         />
     </div>
   );
+}
+
+function AddItem() {
+  return <button 
+  type="button"
+  className="button add-item">Add New Item</button>
 }
 
 function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange }) {
