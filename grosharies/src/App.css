@@ -201,10 +201,6 @@ table.strike-able tr.strikeout td.strike-able:before {
   color: white;
 }
 
-i {
-  font-style: bold;
-}
-
 a {
 display: none;
 position: absolute;

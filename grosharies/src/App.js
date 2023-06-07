@@ -36,16 +36,37 @@ function FilterableItemTable({items}) {
   );
 }
 
+function handleSubmit(e) {
+  // e.preventDefault();
+
+  const form = e.target;
+  const formData = new FormData(form)
+  
+  const formJson = Object.fromEntries(formData.entries());
+
+
+
+  fetch('http://localhost:5000/api/items', { headers: {
+    "Content-Type": "application/json"}, method: form.method, body: JSON.stringify(formJson)})
+    .then((res) => res.json())
+    .then((data) => {
+      console.log(data);
+      })
+    .catch((err) => {console.log(err.message)});
+}
+
 function AddItem({extendAddButton, setExtendAddButton}) {
   return (
     <form 
-      action="" 
+      method="post"
+      onSubmit = {handleSubmit}
       className={`add-item`}
       onMouseOver={() => {setExtendAddButton(true)}}
       onMouseLeave={() => {setExtendAddButton(false)}}>
-        <input type="text"
-        className = "add-input" required></input>
-        <i class="fa fa-search">+</i>
+        <input type="text" name="name"
+        className = "add-input"
+        required></input>
+        <input type="submit" className="fa fa-search" value="+"></input>
     </form>
     )
 }
