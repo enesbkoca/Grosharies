@@ -185,8 +185,9 @@ table.strike-able tr.strikeout td.strike-able:before {
 
 .add-item:hover,
 .add-item:valid{
-  width: 200px;
+  width: 200%;
   cursor: pointer;
+  left: 0%;
 }
 
 .add-item:hover input,
