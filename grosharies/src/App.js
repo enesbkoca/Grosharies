@@ -7,7 +7,7 @@ function FilterableItemTable({items}) {
   const [unpurchasedOnly, setUnpurchasedOnly] = useState(false);
 
   return (
-    <div>
+    <div className="center">
       <div className="width-80 center">
         <div className="width-50-left">
         <SearchBar 
@@ -57,7 +57,7 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
       )});
 
   return (
-    <form className='filter-bar font center'>
+    <form className='filter-bar font'>
       <select 
         name="shops" 
         id="shops"
