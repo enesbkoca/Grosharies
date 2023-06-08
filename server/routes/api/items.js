@@ -33,7 +33,6 @@ router.get("/:id", (req, res) => {
 // @access Public
 router.post('/', (req, res) => {
     req.body.added_date = new Date();
-    console.log(req.body)
     GroceryItem.create(req.body)
         .then(item => res.json({msg: 'Item added successfully'}))
         .catch(err => res.status(400).json({error: 'Unable to add this item', err:err}))

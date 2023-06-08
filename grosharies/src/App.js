@@ -2,10 +2,10 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 
-function FilterableItemTable({items}) {
+function FilterableItemTable({items, extendAddButton, setExtendAddButton}) {
   const [filterShop, setFilterShop] = useState('All');
-  const [unpurchasedOnly, setUnpurchasedOnly] = useState(false);
-  const [extendAddButton, setExtendAddButton] = useState(false);
+  const [unpurchasedOnly, setUnpurchasedOnly] = useState(true);
+  
   
   return (
     <div className="center">
@@ -17,6 +17,7 @@ function FilterableItemTable({items}) {
           filterShop={filterShop}
           unpurchasedOnly={unpurchasedOnly}
           onFilterShopChange={setFilterShop}
+          
           onUnPurhcasedOnlyChange={setUnpurchasedOnly}/>
         </div>
 
@@ -30,32 +31,33 @@ function FilterableItemTable({items}) {
       <ItemTable 
         items={items}
         filterShop={filterShop}
-        unpurchasedOnly={unpurchasedOnly}
         />
     </div>
   );
 }
 
-function handleSubmit(e) {
-  // e.preventDefault();
-
-  const form = e.target;
-  const formData = new FormData(form)
-  
-  const formJson = Object.fromEntries(formData.entries());
-
-
-
-  fetch('http://localhost:5000/api/items', { headers: {
-    "Content-Type": "application/json"}, method: form.method, body: JSON.stringify(formJson)})
-    .then((res) => res.json())
-    .then((data) => {
-      console.log(data);
-      })
-    .catch((err) => {console.log(err.message)});
-}
 
 function AddItem({extendAddButton, setExtendAddButton}) {
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  
+    const form = e.target;
+    const formData = new FormData(form)
+    
+    const formJson = Object.fromEntries(formData.entries());
+  
+    console.log(formJson)
+    fetch('http://localhost:5000/api/items/', { headers: {
+      "Content-Type": "application/json"}, method: form.method, body: JSON.stringify(formJson)})
+      .then((res) => res.json())
+      .then((data) => {
+        console.log(data);
+        })
+      .catch((err) => {console.log(err.message)});
+
+      setExtendAddButton(false);
+    }
+
   return (
     <form 
       method="post"
@@ -71,7 +73,7 @@ function AddItem({extendAddButton, setExtendAddButton}) {
     )
 }
 
-function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange, extendAddButton, setExtendAddButton }) {
+function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange, setExtendAddButton }) {
   const shopList = ["All"]
   
   items.forEach((item) => {
@@ -110,7 +112,7 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
   );
 }
 
-function ItemTable({items, filterShop, unpurchasedOnly}) {
+function ItemTable({items, filterShop, extendAddButton, unpurchasedOnly}) {
   const rows = [];
 
   items.forEach((item) => {
@@ -155,9 +157,10 @@ function ItemRow({item}) {
 export default function App() {
 
   const [items, setItems] = useState([]);
+  const [extendAddButton, setExtendAddButton] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/items')
+    fetch('http://localhost:5000/api/items/')
       .then((res) => res.json())
       .then((data) => {
         console.log(data);
@@ -167,5 +170,8 @@ export default function App() {
   }, []);
 
 
-  return <FilterableItemTable items={items} />;
+  return <FilterableItemTable 
+  items={items}
+  extendAddButton={extendAddButton}
+  setExtendAddButton={setExtendAddButton}/>;
 }
