@@ -4,7 +4,9 @@
   "description": "Grocery sharing app",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "server": "npm run server",
+    "client": "npm run client",
+    "dev": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
@@ -15,5 +17,8 @@
   "bugs": {
     "url": "https://github.com/enesbkoca/Grosharies/issues"
   },
-  "homepage": "https://github.com/enesbkoca/Grosharies#readme"
+  "homepage": "https://github.com/enesbkoca/Grosharies#readme",
+  "dependencies": {
+    "concurrently": "^8.2.0"
+  }
 }
