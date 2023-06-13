@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import './App.css';
 
 
+const API_URL = "http://localhost:5005/api"
+
 function FilterableItemTable({items, extendAddButton, setExtendAddButton}) {
   const [filterShop, setFilterShop] = useState('All');
   const [unpurchasedOnly, setUnpurchasedOnly] = useState(true);
@@ -47,7 +49,7 @@ function AddItem({extendAddButton, setExtendAddButton}) {
     const formJson = Object.fromEntries(formData.entries());
   
     console.log(formJson)
-    fetch('http://localhost:5000/api/items/', { headers: {
+    fetch(`${API_URL}/items`, { headers: {
       "Content-Type": "application/json"}, method: form.method, body: JSON.stringify(formJson)})
       .then((res) => res.json())
       .then((data) => {
@@ -160,7 +162,7 @@ export default function App() {
   const [extendAddButton, setExtendAddButton] = useState(false);
 
   useEffect(() => {
-    fetch('http://localhost:5000/api/items/')
+    fetch(`${API_URL}/items`)
       .then((res) => res.json())
       .then((data) => {
         console.log(data);

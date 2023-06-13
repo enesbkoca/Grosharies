@@ -2,7 +2,7 @@ const express = require("express");
 const connectDB = require('./config/db');
 const cors = require('cors');
 
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 5005;
 
 const items = require('./routes/api/items')
 
@@ -22,9 +22,6 @@ app.listen(port, () => {
     // dbo.connectToServer(function (err) {
     //     if (err) console.error(err);
     // });
-
     console.log(`Server is running on port ${port}`);
-
-
-
 });
+
