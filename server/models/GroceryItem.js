@@ -23,4 +23,6 @@ const ItemSchema = new mongoose.Schema({
     fulfilled_date: Date
 })
 
+ItemSchema.index({name: 1, shop: 1}, {unique: true});
+
 module.exports = Item = mongoose.model('item', ItemSchema)
