@@ -1,8 +1,7 @@
 import { useState, useEffect } from 'react'; 
 import { Link } from 'react-router-dom';
 import '../styles/App.css';
-
-const API_URL = "http://localhost:5005/api"
+import { API_URL } from '../index'
 
 function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
