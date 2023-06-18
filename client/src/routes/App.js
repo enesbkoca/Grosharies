@@ -5,19 +5,20 @@ import { API_URL } from '../index'
 
 function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
-  const [unpurchasedOnly, setUnpurchasedOnly] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   
   return (
     <div>
         <SearchBar
           items={items}
           filterShop={filterShop}
-          unpurchasedOnly={unpurchasedOnly}
+          showAll={showAll}
           onFilterShopChange={setFilterShop}
-          onUnPurhcasedOnlyChange={setUnpurchasedOnly}/>
+          onShowAllChange={setShowAll}/>
       <ItemTable 
         items={items}
         filterShop={filterShop}
+        showAll={showAll}
         />
     </div>
   );
@@ -33,7 +34,7 @@ function AddItem() {
   )
 };
 
-function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange}) {
+function SearchBar({ items, showAll, onFilterShopChange, onShowAllChange }) {
   const shopList = ["All"]
   
   items.forEach((item) => {
@@ -64,8 +65,8 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
       <label>
         <input 
         type="checkbox"
-        checked={unpurchasedOnly}
-        onChange={(e) => {onUnPurhcasedOnlyChange(e.target.checked)}}/>
+        checked={showAll}
+        onChange={(e) => {onShowAllChange(e.target.checked)}}/>
         {'Show all'}
       </label>
       <AddItem/>
@@ -73,22 +74,21 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
   );
 }
 
-function ItemTable({items, filterShop, unpurchasedOnly}) {
+function ItemTable({items, filterShop, showAll}) {
   const rows = [];
 
   items.forEach((item) => {
     if (filterShop !== "All" && (!(item.shop.includes(filterShop)))) {
         return;
       }
-
-    if ((!(unpurchasedOnly)) || (unpurchasedOnly && (item.fulfilled === false))) {
-    rows.push(
-      <ItemRow
-        item={item}
-        key={item._id} />
-      );
-    }
-  });
+    if ((item.fulfilled === false) || (item.fulfilled && showAll)) {
+      rows.push(
+        <ItemRow
+          item={item}
+          key={item._id} />
+        );
+      }
+    });
 
   return (
     <table className="item-table hover-row strike-able">
@@ -98,7 +98,6 @@ function ItemTable({items, filterShop, unpurchasedOnly}) {
 }
 
 function ItemRow({item}) {
-  // const name = !(item.fulfilled) ? item.name :  <span><s>{item.name}</s></span>;
 
   return (
     <tr className={`item-row ${item.fulfilled ? "strikeout" : ""}`}>
