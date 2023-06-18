@@ -104,8 +104,8 @@ function ItemRow({item}) {
   return (
     <tr className={`item-row ${item.fulfilled ? "strikeout" : ""}`}>
       <td className="strike-able">{item.name}</td>
-      <td className="strike-able">{item.quantity}</td>
-      <td><button>Edit</button></td>
+      <td className="strike-able center">{item.quantity}</td>
+      <td><button style={{ float: "right" }}>Edit</button></td>
     </tr>
   );
 }

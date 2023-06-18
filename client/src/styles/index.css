@@ -14,7 +14,6 @@ code {
 }
 
 body {
-  
   position: relative;
   min-height: 100vh;
   padding: 0 0;
@@ -27,6 +26,13 @@ body {
   margin-left: auto;
   margin-right: auto;
   min-width: 350px;
+  max-width: 600px;
+}
+
+.main-content {
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
 }
 
 button {
@@ -34,6 +40,11 @@ button {
   border-color: #9BCDD2;
   border-radius: 8px;
   color: inherit;
+  padding: 3px 9px;
+}
+
+.center {
+  text-align: center;
 }
 
 .logo {
@@ -54,14 +65,14 @@ button {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: #FFDEDE;
-  padding: 5px 2px;
+  background-color: #FF8551;
+  padding: 5px 5px;
   margin-right: auto;
   margin-left: auto;
 }
 
 .main-header {
-  border-radius: 0 0 10px 10px;
+  border-radius: 0 0 15px 15px;
 }
 
 .main-footer {
@@ -71,7 +82,7 @@ button {
   width: 100%;
   bottom: 0;
   height: 2.5rem;
-  border-radius: 10 10 0px 0px;
+  border-radius: 15px 15px 0px 0px;
 }
 
 .main-nav ul {
