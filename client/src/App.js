@@ -1,32 +1,39 @@
 import { useState, useEffect } from 'react'; 
 import './App.css';
-
+import logo from './logo.png'
 
 const API_URL = "http://localhost:5005/api"
 
-function FilterableItemTable({items, extendAddButton, setExtendAddButton}) {
+function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
-  const [unpurchasedOnly, setUnpurchasedOnly] = useState(true);
+  const [unpurchasedOnly, setUnpurchasedOnly] = useState(false);
   
   
   return (
-    <div className="center">
-      <div className="width-80 center">
-
-        <div className={`width-50-left ${extendAddButton ? "hidden" : ""}`}>
+    <div>
+      <header>
+        <a href="/" className="logo">
+          <img src={logo} alt="Grosharies"/>
+          <div className="logo-name">Grosharies</div>
+        </a>
+        
+        <nav>
+          <ul>
+            <li><a 
+            href="">About</a></li>
+            <li><a 
+            href="">Source Code</a></li>
+          </ul>
+        </nav>
+      </header>
+      <div>
+        <div>
         <SearchBar 
           items={items}
           filterShop={filterShop}
           unpurchasedOnly={unpurchasedOnly}
           onFilterShopChange={setFilterShop}
-          
           onUnPurhcasedOnlyChange={setUnpurchasedOnly}/>
-        </div>
-
-        <div className="width-50-right">
-          <AddItem
-          extendAddButton={extendAddButton}
-          setExtendAddButton={setExtendAddButton}/>
         </div>
 
       </div>
@@ -34,48 +41,39 @@ function FilterableItemTable({items, extendAddButton, setExtendAddButton}) {
         items={items}
         filterShop={filterShop}
         />
+
+        <footer>
+          Enes © 2023
+        </footer>
     </div>
   );
 }
 
-
-function AddItem({extendAddButton, setExtendAddButton}) {
-  const handleSubmit = (e) => {
-    e.preventDefault();
+// function AddItem() {
+//   const handleSubmit = (e) => {
+//     e.preventDefault();
   
-    const form = e.target;
-    const formData = new FormData(form)
+//     const form = e.target;
+//     const formData = new FormData(form)
     
-    const formJson = Object.fromEntries(formData.entries());
+//     const formJson = Object.fromEntries(formData.entries());
   
-    console.log(formJson)
-    fetch(`${API_URL}/items`, { headers: {
-      "Content-Type": "application/json"}, method: form.method, body: JSON.stringify(formJson)})
-      .then((res) => res.json())
-      .then((data) => {
-        console.log(data);
-        })
-      .catch((err) => {console.log(err.message)});
+//     console.log(formJson)
+//     fetch(`${API_URL}/items`, { headers: {
+//       "Content-Type": "application/json"}, method: form.method, body: JSON.stringify(formJson)})
+//       .then((res) => res.json())
+//       .then((data) => {
+//         console.log(data);
+//         })
+//       .catch((err) => {console.log(err.message)});
+//     }
 
-      setExtendAddButton(false);
-    }
+//   return (
+//     <a>Add New Item</a>
+//     )
+// }
 
-  return (
-    <form 
-      method="post"
-      onSubmit = {handleSubmit}
-      className={`add-item`}
-      onMouseOver={() => {setExtendAddButton(true)}}
-      onMouseLeave={() => {setExtendAddButton(false)}}>
-        <input type="text" name="name"
-        className = "add-input"
-        required></input>
-        <input type="submit" className="fa fa-search" value="+"></input>
-    </form>
-    )
-}
-
-function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange, setExtendAddButton }) {
+function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange}) {
   const shopList = ["All"]
   
   items.forEach((item) => {
@@ -108,13 +106,13 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
         type="checkbox"
         checked={unpurchasedOnly}
         onChange={(e) => {onUnPurhcasedOnlyChange(e.target.checked)}}/>
-        {'Only unpurchased'}
+        {'Show all'}
       </label>
     </form>
   );
 }
 
-function ItemTable({items, filterShop, extendAddButton, unpurchasedOnly}) {
+function ItemTable({items, filterShop, unpurchasedOnly}) {
   const rows = [];
 
   items.forEach((item) => {
@@ -133,12 +131,6 @@ function ItemTable({items, filterShop, extendAddButton, unpurchasedOnly}) {
 
   return (
     <table className="table-header center font hover-row strike-able">
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Quantity</th>
-        </tr>
-      </thead>
       <tbody>{rows}</tbody>
     </table>
   );
@@ -159,7 +151,6 @@ function ItemRow({item}) {
 export default function App() {
 
   const [items, setItems] = useState([]);
-  const [extendAddButton, setExtendAddButton] = useState(false);
 
   useEffect(() => {
     fetch(`${API_URL}/items`)
@@ -173,7 +164,5 @@ export default function App() {
 
 
   return <FilterableItemTable 
-  items={items}
-  extendAddButton={extendAddButton}
-  setExtendAddButton={setExtendAddButton}/>;
+  items={items}/>;
 }

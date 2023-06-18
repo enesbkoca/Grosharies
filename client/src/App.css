@@ -1,53 +1,42 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 40vmin;
-  pointer-events: none;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+*, *::before, *::after {
+  box-sizIng: border-box;
 }
 
 body {
-  background-color: #ececec; 
-}
-
-.font {font-family: "Monaco", "Georgia", "Garamond";}
-
-
-.center {
+  padding: 0;
+  margin: 0;
+  background-color: #ececec;
   width: 80%;
   margin-left: auto;
   margin-right: auto;
+  font-family: "Georgia", "Monaco", "Garamond";
+  font-size: 1.2rem;
+}
+
+header {
+  max-height: 20%;
+}
+
+.logo {
+  max-width: 50%;
+  height: auto;
+  size: 0.5;
+  display: flex;
+  align-items: center;
+  font-size: 1.25em;
+  text-decoration: none;
+}
+
+.logo-name {
+  margin-left: 1rem;
 }
 
 .filter-bar {
   margin-bottom: 7px;
+}
 
+table {
+  border-radius: 12px;
 }
 
 .table-header {
@@ -106,33 +95,6 @@ table.strike-able tr.strikeout td.strike-able:before {
   width: 100%;
 }
 
-.width-80 {
-  width: 80%;
-}
-
-.width-50-left {
-  width: 50%;
-  height: 50px;
-  float: left;
-  padding: 5px 2px;
-}
-
-.width-50-right {
-  margin-left: 50%;
-  height: 50px;
-  padding: 5px 4px;
-}
-
-/* .add-item {
-  text-align: center;
-  border-radius: 8px;
-  padding: 6px 20px;
-  border: 2.5px solid #9fd3c7;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 15px;
-  transition-duration: 0.4s;
-} */
 
 .hidden { 
   display:none;
@@ -168,40 +130,7 @@ table.strike-able tr.strikeout td.strike-able:before {
   padding: 0 0px;
 }
 
-.fa{
-  box-sizing: border-box;
-  padding: 10px;
-  width: 42.5px;
-  height: 42.5px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-radius: 50%;
-  color: #07051a;
-  text-align: center;
-  font-size: 1.2em;
-  transition: all 1s;
-}
-
-.add-item:hover,
-.add-item:valid{
-  width: 200%;
-  cursor: pointer;
-  left: 0%;
-}
-
-.add-item:hover input,
-.add-item:valid input{
-  display: block;
-}
-
-.add-item:hover .fa,
-.add-item:valid .fa{
-  background: #07051a;
-  color: white;
-}
-
-a {
+/* a {
 display: none;
 position: absolute;
 top: 70px;
@@ -212,8 +141,4 @@ font-size: 20px;
 color: white;
 text-align: center; 
 width: 100%;
-}
-
-.add-item:valid a {
-display: block;
-}
+} */
