@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'; 
+import { Link } from 'react-router-dom';
 import '../styles/App.css';
 
 const API_URL = "http://localhost:5005/api"
@@ -7,52 +8,31 @@ function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
   const [unpurchasedOnly, setUnpurchasedOnly] = useState(false);
   
-  
   return (
     <div>
-      <div>
-        <div>
-        <SearchBar 
+        <SearchBar
           items={items}
           filterShop={filterShop}
           unpurchasedOnly={unpurchasedOnly}
           onFilterShopChange={setFilterShop}
           onUnPurhcasedOnlyChange={setUnpurchasedOnly}/>
-        </div>
-      </div>
       <ItemTable 
         items={items}
         filterShop={filterShop}
         />
-
-
     </div>
   );
 }
 
-// function AddItem() {
-//   const handleSubmit = (e) => {
-//     e.preventDefault();
-  
-//     const form = e.target;
-//     const formData = new FormData(form)
-    
-//     const formJson = Object.fromEntries(formData.entries());
-  
-//     console.log(formJson)
-//     fetch(`${API_URL}/items`, { headers: {
-//       "Content-Type": "application/json"}, method: form.method, body: JSON.stringify(formJson)})
-//       .then((res) => res.json())
-//       .then((data) => {
-//         console.log(data);
-//         })
-//       .catch((err) => {console.log(err.message)});
-//     }
-
-//   return (
-//     <a>Add New Item</a>
-//     )
-// }
+function AddItem() {
+  return (
+    <div>
+      <Link to="/additem">
+        <button type="button">Add New Item</button>
+      </Link>
+    </div>
+  )
+};
 
 function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onUnPurhcasedOnlyChange}) {
   const shopList = ["All"]
@@ -74,7 +54,7 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
       )});
 
   return (
-    <form className='filter-bar font'>
+    <div className="filter-bar">
       <select 
         name="shops" 
         id="shops"
@@ -89,7 +69,8 @@ function SearchBar({ items, filterShop, unpurchasedOnly, onFilterShopChange, onU
         onChange={(e) => {onUnPurhcasedOnlyChange(e.target.checked)}}/>
         {'Show all'}
       </label>
-    </form>
+      <AddItem/>
+    </div>
   );
 }
 

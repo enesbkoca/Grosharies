@@ -4,11 +4,15 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+
 import './styles/index.css';
+
 import App from './routes/App';
-import About from './routes/About'
-import Login from './routes/Login'
-import {Header, Footer} from './utils'
+import About from './routes/About';
+import Login from './routes/Login';
+import AddItem from './routes/AddItem';
+import Error from './routes/Error';
+import {Header, Footer} from './utils';
 
 
 const Layout = ({ children }) => {
@@ -21,11 +25,11 @@ const Layout = ({ children }) => {
     )
 }
 
-
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Layout><App /></Layout>
+    element: <Layout><App /></Layout>,
+    errorElement: <Layout><Error/></Layout>
   },
   {
     path: "/login",
@@ -34,6 +38,10 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <Layout><About /></Layout>
+  },
+  {
+    path: "/additem",
+    element: <Layout><AddItem /></Layout>
   }
 ]);
 

@@ -1,14 +1,14 @@
 import logo from './logo.png'
-
+import './styles/index.css'
 
 const Header = () => 
-    <header>
+    <header className="main-header">
         <a href="/" className="logo">
             <img src={logo} alt="Grosharies"/>
             <div className="logo-name">Grosharies</div>
         </a>
 
-        <nav>
+        <nav className="main-nav">
             <ul>
             <li><a 
             href="/login">Login</a></li>
