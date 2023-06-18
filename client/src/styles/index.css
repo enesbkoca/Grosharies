@@ -5,6 +5,7 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 1000px;
 }
 
 code {
@@ -12,10 +13,65 @@ code {
     monospace;
 }
 
-.main-header {
+body {
+  
+  position: relative;
+  min-height: 100vh;
+  padding: 0 0;
+  margin: 0px 0px;
+  background-color: #FAF0E4;
+  width: 100%;
+  font-family: "Georgia", "Monaco", "Garamond";
+  font-size: 1.2rem;
+  color: black;
+  margin-left: auto;
+  margin-right: auto;
+  min-width: 350px;
+}
+
+button {
+  background-color: #9BCDD2;
+  border-color: #9BCDD2;
+  border-radius: 8px;
+  color: inherit;
+}
+
+.logo {
+  max-width: 50%;
+  height: auto;
+  display: flex;
+  align-items: center;
+  font-size: 1.25em;
+  text-decoration: none;
+  margin-right: 0px;
+}
+
+.logo-name {
+  margin-left: 1rem;
+}
+
+.main-header, .main-footer {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  background-color: #FFDEDE;
+  padding: 5px 2px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.main-header {
+  border-radius: 0 0 10px 10px;
+}
+
+.main-footer {
+  margin-top: 7px; 
+  justify-content: space-between;
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  height: 2.5rem;
+  border-radius: 10 10 0px 0px;
 }
 
 .main-nav ul {

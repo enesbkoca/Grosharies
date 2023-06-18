@@ -2,33 +2,10 @@
   box-sizIng: border-box;
 }
 
-body {
-  padding: 0;
-  margin: 0;
-  background-color: #ececec;
-  width: 80%;
-  margin-left: auto;
-  margin-right: auto;
-  font-family: "Georgia", "Monaco", "Garamond";
-  font-size: 1.2rem;
-}
 
-
-.logo {
-  max-width: 50%;
-  height: auto;
-  display: flex;
-  align-items: center;
-  font-size: 1.25em;
-  text-decoration: none;
-}
-
-.logo-name {
-  margin-left: 1rem;
-}
 
 .filter-bar {
-  margin-bottom: 7px;
+  margin: 7px 0px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
@@ -36,6 +13,18 @@ body {
 
 table {
   border-radius: 12px;
+}
+
+.item-table {
+  border-radius:12 px;
+  margin: 0px auto;
+  width: 90%;
+  background-color: #FFDEDE;
+  border-radius: 8px;
+  color: inherit;
+  font-size: 20px;
+  font-weight: 400;
+
 }
 
 .table-header {
@@ -53,23 +42,8 @@ table {
   text-align: center
 }
 
-.first-color { 
-	background: #ececec; 
-}
-	
-.second-color { 
-	background: #9fd3c7; 
-}
 
-.third-color { 
-	background: #385170; 
-}
-
-.fourth-color { 
-	background: #142d4c;
-}
-
-.hover-row tr:hover {background-color: #ececec;}
+.hover-row tr:hover {background-color: #FF8551;}
 
 table.strike-able {
   border-collapse: collapse;

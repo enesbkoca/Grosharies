@@ -12,17 +12,25 @@ const Header = () =>
             <ul>
             <li><a 
             href="/login">Login</a></li>
+
             <li><a 
-            href="/about">About</a></li>
-            <li><a 
-            href="https://github.com/enesbkoca/Grosharies">Source Code</a></li>
+            href="https://github.com/enesbkoca/Grosharies">GitHub</a></li>
             </ul>
         </nav>
     </header>;
 
 const Footer = () => 
-    <footer>
-        Enes © 2023
+    <footer className="main-footer">
+        <nav className="main-nav">
+            <ul>
+                <li><a 
+                    href="/about">About</a>
+                </li>
+                <li>
+                    Made by Enes 2023
+                </li>
+            </ul>
+        </nav>
     </footer>;
 
 export {Header, Footer}

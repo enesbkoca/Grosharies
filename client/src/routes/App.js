@@ -92,7 +92,7 @@ function ItemTable({items, filterShop, unpurchasedOnly}) {
   });
 
   return (
-    <table className="table-header center font hover-row strike-able">
+    <table className="item-table hover-row strike-able">
       <tbody>{rows}</tbody>
     </table>
   );
@@ -102,9 +102,10 @@ function ItemRow({item}) {
   // const name = !(item.fulfilled) ? item.name :  <span><s>{item.name}</s></span>;
 
   return (
-    <tr className={`table-row font ${item.fulfilled ? "strikeout" : ""}`}>
+    <tr className={`item-row ${item.fulfilled ? "strikeout" : ""}`}>
       <td className="strike-able">{item.name}</td>
       <td className="strike-able">{item.quantity}</td>
+      <td><button>Edit</button></td>
     </tr>
   );
 }
