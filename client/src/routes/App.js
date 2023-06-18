@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react'; 
-import './App.css';
-import logo from './logo.png'
+import '../styles/App.css';
 
 const API_URL = "http://localhost:5005/api"
 
@@ -11,21 +10,6 @@ function FilterableItemTable({items}) {
   
   return (
     <div>
-      <header>
-        <a href="/" className="logo">
-          <img src={logo} alt="Grosharies"/>
-          <div className="logo-name">Grosharies</div>
-        </a>
-        
-        <nav>
-          <ul>
-            <li><a 
-            href="">About</a></li>
-            <li><a 
-            href="">Source Code</a></li>
-          </ul>
-        </nav>
-      </header>
       <div>
         <div>
         <SearchBar 
@@ -35,16 +19,13 @@ function FilterableItemTable({items}) {
           onFilterShopChange={setFilterShop}
           onUnPurhcasedOnlyChange={setUnpurchasedOnly}/>
         </div>
-
       </div>
       <ItemTable 
         items={items}
         filterShop={filterShop}
         />
 
-        <footer>
-          Enes © 2023
-        </footer>
+
     </div>
   );
 }
