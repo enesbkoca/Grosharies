@@ -22,18 +22,20 @@ function NewItem({shopList}) {
             'shop': selectedShop
             }
         
-        console.log(form);
+        console.log(JSON.stringify(form));
         
         fetch(`${API_URL}/items`, {
                 method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(form)
             })
                 .then(response => response.json())
                 .then(response => console.log(response))
+                .then(() => navigate("/"))
                 .catch((err) => (console.log(err.error)))
 
         // Redirect to homepage
-        navigate("/")
+        
     }
 
     const handleNewShopChange = (event) => {
