@@ -1,29 +1,44 @@
 import React, {useState, useEffect} from 'react';
+import Select, { components } from "react-select";
 import { useNavigate } from "react-router-dom";
 import { API_URL } from '../index'
+
+
+const Option = (props) => {
+  return (
+    <div>
+      <components.Option {...props}>
+        <input
+          type="checkbox"
+          checked={props.isSelected}
+          onChange={() => null}
+          />{" "}
+          <label>{props.label}</label>
+      </components.Option>
+    </div>
+  )
+}
 
 
 function NewItem({shopList}) {
     const navigate  = useNavigate();
     const [name, setName] = useState('');
     const [quantity, setQuantity] = useState(1);
-    const [shop, setShop] = useState('');
-    const [newShop, setNewShop] = useState('')
+    const [shop, setShop] = useState([]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         
-
-        const selectedShop = shop === "Other" ? newShop : shop;
         
         const form = {
             'name': name,
             'quantity': quantity,
-            'shop': selectedShop
+            'shop': shop
             }
         
         console.log(JSON.stringify(form));
         
+        // Post new item
         fetch(`${API_URL}/items`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
@@ -38,13 +53,9 @@ function NewItem({shopList}) {
         
     }
 
-    const handleNewShopChange = (event) => {
-        setNewShop(event.target.value);
-    };
-
     const shopOptions = shopList.map((shop) => {
         return (
-            <option value={shop} key={shop}>{shop}</option>
+            {value: shop, label: shop}
         )});
 
     return (
@@ -71,26 +82,20 @@ function NewItem({shopList}) {
               />
             </label>
             <br />
-            <label>
-              Shop:
-              <select value={shop} onChange={(event) => setShop(event.target.value)} required>
-                <option value="Any" key="Any">Any</option>
-                {shopOptions}
-                {newShop !== '' && <option value={newShop}>{newShop}</option>}
-                <option value="Other" key="Other">Other</option>
-              </select>
-              {shop === "Other" && (
-                <div>
-                    <input
-                        type="text"
-                        value={newShop}
-                        onChange={handleNewShopChange}
-                        placeholder="Enter the new shop name"
-                        required
-                    />
-                </div>
-          )}
-            </label>
+            <Select
+              options={shopOptions}
+              isMulti
+              closeMenuOnSelect={false}
+              hideSelectedOptions={false}
+              allowSelectAll={true}
+              components={{
+                Option
+              }}
+              onChange={(selectedOptions) => {
+                const selectedValues = selectedOptions ? selectedOptions.map(option => option.value): [];
+                setShop(selectedValues);
+              }}
+            />
             <br />
             <button type="submit">Create</button>
           </form>
@@ -104,11 +109,13 @@ function NewItem({shopList}) {
 export default function AddItem () {
     const [shopList, setShopList] = useState([])
 
+
+    // Fetch items to get unique shops
     useEffect(() => {
         fetch(`${API_URL}/items`)
             .then((res) => res.json())
             .then((data) => {
-            console.log(data);
+            // console.log(data);
             const uniqueShops = Array.from(
                 new Set(data.flatMap((item) => item.shop))
             );

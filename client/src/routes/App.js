@@ -117,7 +117,7 @@ export default function App() {
     fetch(`${API_URL}/items`)
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
+        // console.log(data);
         setItems(data)
         })
       .catch((err) => {console.log(err.message)})
