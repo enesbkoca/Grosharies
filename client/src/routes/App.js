@@ -5,8 +5,33 @@ import { API_URL, crossItem } from '../api/calls';
 
 function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
-  const [showAll, setShowAll] = useState(false);
+  const [showAll, setShowAll] = useState(true);
+  const [updatedItems, setUpdatedItems] = useState(items);
   
+
+  useEffect(() => {
+    setUpdatedItems(items); // Update the items when the prop changes
+  }, [items]);
+
+  // Function to handle crossing out an item
+  const handleCrossItem = (id, fulfilled) => {
+    crossItem(id, fulfilled)
+      .then(() => {
+        setUpdatedItems(prevItems => {
+          return prevItems.map(item => {
+            if (item._id === id) {
+              return { ...item, fulfilled: (!(fulfilled)) };
+            }
+            return item;
+          });
+        });
+      })
+      .catch(error => {
+        console.log(error.message);
+      });
+  };
+
+
   return (
     <div>
         <SearchBar
@@ -16,7 +41,8 @@ function FilterableItemTable({items}) {
           onFilterShopChange={setFilterShop}
           onShowAllChange={setShowAll}/>
       <ItemTable 
-        items={items}
+        items={updatedItems}
+        handleCrossItem={handleCrossItem}
         filterShop={filterShop}
         showAll={showAll}
         />
@@ -74,7 +100,7 @@ function SearchBar({ items, showAll, onFilterShopChange, onShowAllChange }) {
   );
 }
 
-function ItemTable({items, filterShop, showAll}) {
+function ItemTable({items, filterShop, showAll, handleCrossItem}) {
   const rows = [];
 
   items.forEach((item) => {
@@ -86,7 +112,8 @@ function ItemTable({items, filterShop, showAll}) {
         <ItemRow
           item={item}
           key={item._id}
-          id={item._id} />
+          id={item._id}
+          handleCrossItem={handleCrossItem} />
         );
       }
     });
@@ -98,10 +125,10 @@ function ItemTable({items, filterShop, showAll}) {
   );
 }
 
-function ItemRow({item, id}) {
+function ItemRow({item, id, handleCrossItem}) {
 
   return (
-    <tr key={id} className={`item-row ${item.fulfilled ? "strikeout" : ""}`} onClick={() => {crossItem(id, item.fulfilled)}}>
+    <tr key={id} className={`item-row ${item.fulfilled ? "strikeout" : ""}`} onClick={() => {handleCrossItem(id, item.fulfilled)}}>
       <td className="strike-able">{item.name}</td>
       <td className="strike-able center">{item.quantity}</td>
       <td><button style={{ float: "right" }}>Edit</button></td>
