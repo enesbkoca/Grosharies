@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Select, { components } from "react-select";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from '../index'
+import { API_URL } from '../api/calls'
 
 
 const Option = (props) => {

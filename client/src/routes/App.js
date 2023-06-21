@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'; 
 import { Link } from 'react-router-dom';
 import '../styles/App.css';
-import { API_URL } from '../index'
+import { API_URL, crossItem } from '../api/calls';
 
 function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
@@ -85,7 +85,8 @@ function ItemTable({items, filterShop, showAll}) {
       rows.push(
         <ItemRow
           item={item}
-          key={item._id} />
+          key={item._id}
+          id={item._id} />
         );
       }
     });
@@ -97,16 +98,17 @@ function ItemTable({items, filterShop, showAll}) {
   );
 }
 
-function ItemRow({item}) {
+function ItemRow({item, id}) {
 
   return (
-    <tr className={`item-row ${item.fulfilled ? "strikeout" : ""}`}>
+    <tr key={id} className={`item-row ${item.fulfilled ? "strikeout" : ""}`} onClick={() => {crossItem(id, item.fulfilled)}}>
       <td className="strike-able">{item.name}</td>
       <td className="strike-able center">{item.quantity}</td>
       <td><button style={{ float: "right" }}>Edit</button></td>
     </tr>
   );
 }
+
 
 
 export default function App() {
@@ -127,3 +129,8 @@ export default function App() {
   return <FilterableItemTable 
   items={items}/>;
 }
+
+
+// get_items()
+//               .then(res => console.log(res))
+//               .catch(err => console.log(err.message))
