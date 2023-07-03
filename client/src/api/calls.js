@@ -22,4 +22,35 @@ function crossItem(id, fulfilled) {
             .then(res => console.log(res))
 }
 
-export {API_URL, getItems, crossItem}
+function getShops() {
+    return fetch(`${API_URL}/shops`)
+        .then((res) => res.json())
+        .then((data) => {
+            return (data)
+        })
+        .catch((err) => {
+            console.log(err.message)
+            throw err;
+        })
+}
+
+function addShop(shop) {
+    return fetch(`${API_URL}/shops`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json'},
+        body: JSON.stringify({name: shop})
+    })
+        .then(res => res.json())
+        .then(res => console.log(res))
+}
+
+function removeShop(shopID) {
+    return fetch(`${API_URL}/shops/${shopID}`, {
+        method: 'DELETE',
+    })
+        .then(res => res.json())
+        .then(res => console.log(res))
+}
+
+
+export {API_URL, getItems, crossItem, getShops, addShop, removeShop}

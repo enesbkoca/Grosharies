@@ -19,6 +19,23 @@ const Option = (props) => {
   )
 }
 
+const Control = ({ children, ...props }) => {
+  const navigate = useNavigate();
+
+  const handleEditShop = () => {
+    // Logic to handle the "Edit Shop" button click
+    navigate('/shops');
+  };
+
+  return (
+    <components.Control {...props}>
+      {children}
+      <button type="button" onClick={handleEditShop}>
+        Edit Shops
+      </button>
+    </components.Control>
+  );
+};
 
 function NewItem({shopList}) {
     const navigate  = useNavigate();
@@ -89,7 +106,8 @@ function NewItem({shopList}) {
               hideSelectedOptions={false}
               allowSelectAll={true}
               components={{
-                Option
+                Option,
+                Control
               }}
               onChange={(selectedOptions) => {
                 const selectedValues = selectedOptions ? selectedOptions.map(option => option.value): [];

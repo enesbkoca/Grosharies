@@ -5,6 +5,7 @@ const cors = require('cors');
 const port = process.env.PORT || 5005;
 
 const items = require('./routes/api/items')
+const shops = require('./routes/api/shops')
 
 const app = express();
 
@@ -16,6 +17,7 @@ app.use(cors({ origin: true, credentials: true }));
 app.get('/', (req, res) => res.send('Hello World!'));
 
 app.use('/api/items', items)
+app.use('/api/shops', shops)
 
 app.listen(port, () => {
     // // Perform database connection when server starts

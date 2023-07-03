@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import '../styles/App.css';
 import { API_URL, crossItem } from '../api/calls';
+import { useNavigate } from "react-router-dom";
 
 function FilterableItemTable({items}) {
   const [filterShop, setFilterShop] = useState('All');
@@ -126,12 +127,17 @@ function ItemTable({items, filterShop, showAll, handleCrossItem}) {
 }
 
 function ItemRow({item, id, handleCrossItem}) {
+  const navigate = useNavigate();
+
 
   return (
-    <tr key={id} className={`item-row ${item.fulfilled ? "strikeout" : ""}`} onClick={() => {handleCrossItem(id, item.fulfilled)}}>
-      <td className="strike-able">{item.name}</td>
-      <td className="strike-able center">{item.quantity}</td>
-      <td><button style={{ float: "right" }}>Edit</button></td>
+    <tr key={id} className={`item-row ${item.fulfilled ? "strikeout" : ""}`}>
+      <td className="strike-able" onClick={() => {handleCrossItem(id, item.fulfilled)}}>{item.name}</td>
+      <td className="strike-able center" onClick={() => {handleCrossItem(id, item.fulfilled)}}>{item.quantity}</td>
+      <td><button 
+      style={{ float: "right" }}
+      onClick={() => {navigate(`/edit/${id}`)}}
+      >Edit</button></td>
     </tr>
   );
 }

@@ -12,6 +12,8 @@ import About from './routes/About';
 import Login from './routes/Login';
 import AddItem from './routes/AddItem';
 import Error from './routes/Error';
+import EditItem from './routes/EditItem';
+import Shops from './routes/Shops';
 import {Header, Footer} from './utils';
 
 
@@ -45,6 +47,14 @@ const router = createBrowserRouter([
   {
     path: "/additem",
     element: <Layout><AddItem /></Layout>
+  },
+  {
+    path: "/edit/:id",
+    element: <Layout><EditItem /></Layout>
+  },
+  {
+    path: "/shops",
+    element: <Layout><Shops /></Layout>
   }
 ]);
 

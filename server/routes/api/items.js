@@ -5,10 +5,11 @@ const router = express.Router();
 
 const GroceryItem = require('../../models/GroceryItem');
 
+
 // @route GET api/items/test
 // @description tests Item route
 // @access Public
-router.get('/test', (req, res) => res.send("book route testing"));
+router.get('/test', (req, res) => res.send("item route testing"));
 
 // @route GET api/items
 // @description Get all Items
@@ -63,10 +64,8 @@ router.delete('/', (req, res) => {
 router.delete('/:id', (req, res) => {
     GroceryItem.findByIdAndRemove(req.params.id, req.body)
         .then(item => res.json({msg: "Item entry deleted successfully"}))
-        .catch(err => res.status(404).json({error: "No such book found"}))
+        .catch(err => res.status(404).json({error: "No such item found"}))
 });
-
-
 
 
 module.exports = router;
