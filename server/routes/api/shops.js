@@ -19,7 +19,7 @@ router.get('/', (req, res) => {
 // @access Public
 router.post('/', (req, res) => {
     GroceryShop.create(req.body)
-        .then(shop => res.json({msg: 'Shop added successfully'}))
+        .then(shop => res.json({msg: 'Shop added successfully', _id:shop._id}))
         .catch(err => res.status(400).json({error: 'Unable to add this shop', err:err}))
 });
 

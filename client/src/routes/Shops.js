@@ -1,6 +1,5 @@
-import {getShops, removeShop, addShop} from '../api/calls'
-import React, {useState, useEffect} from 'react';
-
+import { getShops, removeShop, addShop } from '../api/calls';
+import React, { useState, useEffect } from 'react';
 
 export default function Shops() {
   const [shops, setShops] = useState([]);
@@ -19,14 +18,13 @@ export default function Shops() {
   const handleDeleteShop = (shopID) => {
     // Delete the shop
     removeShop(shopID)
-    .then((res) => {
-        console.log(shopID);
+      .then(() => {
         // Remove the deleted shop from the list
         setShops((prevShops) => prevShops.filter((shop) => shop._id !== shopID));
-    })
-    .catch((err) => {
+      })
+      .catch((err) => {
         console.log(err.message);
-    });
+      });
   };
 
   const handleAddShop = () => {

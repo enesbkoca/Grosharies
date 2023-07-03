@@ -41,7 +41,9 @@ function addShop(shop) {
         body: JSON.stringify({name: shop})
     })
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+            console.log(res)
+            return res;})
 }
 
 function removeShop(shopID) {
@@ -49,7 +51,9 @@ function removeShop(shopID) {
         method: 'DELETE',
     })
         .then(res => res.json())
-        .then(res => console.log(res))
+        .then(res => {
+            console.log(res)
+            return res;})
 }
 
 
