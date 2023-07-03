@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import Select, { components } from "react-select";
 import { useNavigate } from "react-router-dom";
-import { API_URL } from '../api/calls'
+import { API_URL, getShops } from '../api/calls'
 
 
 const Option = (props) => {
@@ -124,26 +124,22 @@ function NewItem({shopList}) {
 
 
 
-export default function AddItem () {
-    const [shopList, setShopList] = useState([])
+export default function AddItem() {
+  const [shopList, setShopList] = useState([]);
 
+  // Fetch shops to get unique shop names
+  useEffect(() => {
+    getShops()
+      .then((data) => {
+        const uniqueShops = Array.from(
+          new Set(data.flatMap((shop) => shop.name))
+        );
+        setShopList(uniqueShops);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
-    // Fetch items to get unique shops
-    useEffect(() => {
-        fetch(`${API_URL}/items`)
-            .then((res) => res.json())
-            .then((data) => {
-            // console.log(data);
-            const uniqueShops = Array.from(
-                new Set(data.flatMap((item) => item.shop))
-            );
-            setShopList(uniqueShops);
-            })
-            .catch((err) => {
-                console.log(err.message);
-            });
-    }, []);
-
-    return NewItem({shopList});
-
-};
+  return NewItem({ shopList });
+}

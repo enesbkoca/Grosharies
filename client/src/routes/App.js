@@ -1,52 +1,76 @@
 import { useState, useEffect } from 'react'; 
 import { Link } from 'react-router-dom';
 import '../styles/App.css';
-import { API_URL, crossItem } from '../api/calls';
-import { useNavigate } from "react-router-dom";
+import { crossItem, getItems, getShops } from '../api/calls';
+import { useNavigate } from 'react-router-dom';
 
-function FilterableItemTable({items}) {
+function FilterableItemTable() {
+  const [items, setItems] = useState([]);
   const [filterShop, setFilterShop] = useState('All');
   const [showAll, setShowAll] = useState(true);
-  const [updatedItems, setUpdatedItems] = useState(items);
-  
+  const [updatedItems, setUpdatedItems] = useState([]);
 
   useEffect(() => {
-    setUpdatedItems(items); // Update the items when the prop changes
-  }, [items]);
+    getItems()
+      .then((data) => {
+        setItems(data);
+        setUpdatedItems(data);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      });
+  }, []);
 
   // Function to handle crossing out an item
   const handleCrossItem = (id, fulfilled) => {
     crossItem(id, fulfilled)
       .then(() => {
-        setUpdatedItems(prevItems => {
-          return prevItems.map(item => {
+        setUpdatedItems((prevItems) => {
+          return prevItems.map((item) => {
             if (item._id === id) {
-              return { ...item, fulfilled: (!(fulfilled)) };
+              return { ...item, fulfilled: !fulfilled };
             }
             return item;
           });
         });
       })
-      .catch(error => {
+      .catch((error) => {
         console.log(error.message);
       });
   };
 
+  useEffect(() => {
+    // Filter the items based on filterShop and showAll
+    const filteredItems = items.filter((item) => {
+      if (filterShop !== 'All') {
+        return item.shop.includes(filterShop);
+      } else {
+        return true;
+      }
+    });
+
+    setUpdatedItems(filteredItems);
+  }, [items, filterShop, showAll]);
 
   return (
     <div>
-        <SearchBar
-          items={items}
-          filterShop={filterShop}
-          showAll={showAll}
-          onFilterShopChange={setFilterShop}
-          onShowAllChange={setShowAll}/>
-      <ItemTable 
-        items={updatedItems}
-        handleCrossItem={handleCrossItem}
+      <SearchBar
+        items={items}
         filterShop={filterShop}
         showAll={showAll}
+        onFilterShopChange={setFilterShop}
+        onShowAllChange={setShowAll}
+      />
+      {updatedItems && updatedItems.length > 0 ? (
+        <ItemTable
+          items={updatedItems}
+          handleCrossItem={handleCrossItem}
+          filterShop={filterShop}
+          showAll={showAll}
         />
+      ) : (
+        <p>No items available</p>
+      )}
     </div>
   );
 }
@@ -58,66 +82,65 @@ function AddItem() {
         <button type="button">Add New Item</button>
       </Link>
     </div>
-  )
-};
+  );
+}
 
-function SearchBar({ items, showAll, onFilterShopChange, onShowAllChange }) {
-  const shopList = ["All"]
-  
-  items.forEach((item) => {
-    item.shop.forEach((shop) => {
-      if (!(shopList.includes(shop))) {
-        shopList.push(shop)
-       }})
+function SearchBar({ items }) {
+  const [filterShop, setFilterShop] = useState('All');
+  const [showAll, setShowAll] = useState(true);
+  const [shops, setShops] = useState([]);
+
+  useEffect(() => {
+    getShops()
+      .then((data) => {
+        const uniqueShops = ['All', ...data.map((shop) => shop.name)];
+        setShops(uniqueShops);
+      })
+      .catch((error) => {
+        console.log(error.message);
       });
-    
-  const shopListOption = shopList.map((shop) => {
-    return (
-    <option 
-      value={shop} 
-      key={shop}>
-      {shop}
-    </option>
-      )});
+  }, []);
 
   return (
     <div className="filter-bar">
-      <select 
-        name="shops" 
+      <select
+        name="shops"
         id="shops"
-        onChange={(e) => onFilterShopChange(e.target.value)}>
-          {shopListOption}
+        value={filterShop}
+        onChange={(e) => setFilterShop(e.target.value)}
+      >
+        {shops.map((shop) => (
+          <option value={shop} key={shop}>
+            {shop}
+          </option>
+        ))}
       </select>
 
       <label>
-        <input 
-        type="checkbox"
-        checked={showAll}
-        onChange={(e) => {onShowAllChange(e.target.checked)}}/>
-        {'Show all'}
+        <input
+          type="checkbox"
+          checked={showAll}
+          onChange={(e) => setShowAll(e.target.checked)}
+        />
+        Show all
       </label>
-      <AddItem/>
+      <AddItem />
     </div>
   );
 }
 
-function ItemTable({items, filterShop, showAll, handleCrossItem}) {
-  const rows = [];
+function ItemTable({ items, handleCrossItem, filterShop, showAll }) {
+  const filteredItems = items.filter((item) => {
+    if (filterShop !== 'All') {
+      return item.shop.includes(filterShop);
+    } else {
+      return true;
+    }
+  });
 
-  items.forEach((item) => {
-    if (filterShop !== "All" && (!(item.shop.includes(filterShop)))) {
-        return;
-      }
-    if ((item.fulfilled === false) || (item.fulfilled && showAll)) {
-      rows.push(
-        <ItemRow
-          item={item}
-          key={item._id}
-          id={item._id}
-          handleCrossItem={handleCrossItem} />
-        );
-      }
-    });
+  const rows = filteredItems.map((item) => (
+    <ItemRow item={item} key={item._id} handleCrossItem={handleCrossItem} />
+  ));
 
   return (
     <table className="item-table hover-row strike-able">
@@ -126,44 +149,38 @@ function ItemTable({items, filterShop, showAll, handleCrossItem}) {
   );
 }
 
-function ItemRow({item, id, handleCrossItem}) {
+function ItemRow({ item, handleCrossItem }) {
   const navigate = useNavigate();
 
-
   return (
-    <tr key={id} className={`item-row ${item.fulfilled ? "strikeout" : ""}`}>
-      <td className="strike-able" onClick={() => {handleCrossItem(id, item.fulfilled)}}>{item.name}</td>
-      <td className="strike-able center" onClick={() => {handleCrossItem(id, item.fulfilled)}}>{item.quantity}</td>
-      <td><button 
-      style={{ float: "right" }}
-      onClick={() => {navigate(`/edit/${id}`)}}
-      >Edit</button></td>
+    <tr
+      key={item._id}
+      className={`item-row ${item.fulfilled ? 'strikeout' : ''}`}
+    >
+      <td
+        className="strike-able"
+        onClick={() => handleCrossItem(item._id, item.fulfilled)}
+      >
+        {item.name}
+      </td>
+      <td
+        className="strike-able center"
+        onClick={() => handleCrossItem(item._id, item.fulfilled)}
+      >
+        {item.quantity}
+      </td>
+      <td>
+        <button
+          style={{ float: 'right' }}
+          onClick={() => navigate(`/edit/${item._id}`)}
+        >
+          Edit
+        </button>
+      </td>
     </tr>
   );
 }
 
-
-
 export default function App() {
-
-  const [items, setItems] = useState([]);
-
-  useEffect(() => {
-    fetch(`${API_URL}/items`)
-      .then((res) => res.json())
-      .then((data) => {
-        // console.log(data);
-        setItems(data)
-        })
-      .catch((err) => {console.log(err.message)})
-  }, []);
-
-
-  return <FilterableItemTable 
-  items={items}/>;
+  return <FilterableItemTable />;
 }
-
-
-// get_items()
-//               .then(res => console.log(res))
-//               .catch(err => console.log(err.message))
